@@ -1,0 +1,26 @@
+modLoader="javafml" # The type of mod loader, Java FML for Forge
+loaderVersion="47.2.18" # For Minecraft 1.20.1, Forge version 39.0.0 (example)
+license="All rights reserved" # Replace with your mod's license
+
+[[mods]] # The mods section, each mod should have this section
+modId="livebyrivermod" # Your mod ID, should be all lowercase and match the mod ID you use in code
+version="1.0.0" # The version of your mod
+displayName="Live By River Mod" # The display name of your mod
+description='''
+A mod that makes animals seek water.
+''' # A description of your mod
+
+# Here you can define dependencies and other metadata
+[[dependencies.livebyrivermod]]
+modId="forge"
+mandatory=true
+versionRange="[47.2.18,)" # Update this to match the version range of Forge you are using
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.livebyrivermod]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1]" # Update this to match the Minecraft version you are targeting
+ordering="NONE"
+side="BOTH"
