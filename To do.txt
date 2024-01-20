@@ -1,4 +1,7 @@
-1. loop performance
+1. loop performance ✔
 2. apply to all animals
-4. find a proper searching range Y considering performance
+4. find a proper searching range Y considering performance ✔
 3. Biome spawn - more animals near rivers
+
+ERRORS！！！
+1 newly spawned entity stuck in start(), but act fine after reentering.
