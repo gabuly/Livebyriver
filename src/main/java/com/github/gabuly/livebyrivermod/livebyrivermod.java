@@ -28,7 +28,7 @@ public class livebyrivermod {
             Entity entity = event.getEntity();
             if (entity instanceof Sheep) {
                 Sheep sheep = (Sheep) entity;
-                sheep.goalSelector.addGoal(7, new RandomTryFindWaterGoal(sheep));
+                sheep.goalSelector.addGoal(1, new RandomTryFindWaterGoal(sheep));
             } }}
 
 
