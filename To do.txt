@@ -4,4 +4,4 @@
 3. Biome spawn - more animals near rivers
 
 ERRORS！！！
-1 newly spawned entity stuck in start(), but act fine after reentering.
+1 newly spawned entity stuck in start(), but act fine after reentering the world.
