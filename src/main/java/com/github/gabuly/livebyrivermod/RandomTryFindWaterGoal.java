@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 import static com.mojang.text2speech.Narrator.LOGGER;
 
 public class RandomTryFindWaterGoal extends Goal {
-    private static long COOLDOWN= 10000;
+    private static long COOLDOWN= 60000;
     private final PathfinderMob mob;
     private final long delayfinished = 25;
     private int initialTicksCounter = 0;
@@ -42,14 +42,14 @@ public class RandomTryFindWaterGoal extends Goal {
         if(goToWaterPos!=null&&this.mob.blockPosition().closerThan(goToWaterPos, 32)){ //if waterlocation has recorded and not far
            // LOGGER.info("go Home==============="+newWaterPos);
             goToWaterPos = LookForNearWater(this.mob.blockPosition(), newWaterPos);
-            this.mob.getNavigation().moveTo(goToWaterPos.getX(), goToWaterPos.getY(), goToWaterPos.getZ(), 1.8);
+            this.mob.getNavigation().moveTo(goToWaterPos.getX(), goToWaterPos.getY(), goToWaterPos.getZ(), 1.1);
         }
         else {
             newWaterPos = this.lookForWater(this.mob.level(), this.mob, 20);//if no water location yet === seek for water position
             if(newWaterPos!=null) {  //if found, record and go
                 goToWaterPos = LookForNearWater(this.mob.blockPosition(), newWaterPos);
                // LOGGER.info("new home==============  " + goToWaterPos);
-                this.mob.getNavigation().moveTo(goToWaterPos.getX(), goToWaterPos.getY(), goToWaterPos.getZ(), 1.8);
+                this.mob.getNavigation().moveTo(goToWaterPos.getX(), goToWaterPos.getY(), goToWaterPos.getZ(), 1.1);
             } else {stop();}
         }
     }
