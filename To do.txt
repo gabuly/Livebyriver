@@ -1,7 +1,9 @@
 1. loop performance ✔
-2. apply to all animals
+2. apply to all animals✔
 4. find a proper searching range Y considering performance ✔
+5. Add waterhome, find for new waterhomes when too far✔
 3. Biome spawn - more animals near rivers
 
 ERRORS！！！
-1. newly spawned entity stuck in start(), only act fine after reentering the world.
+1. newly spawned entity stuck in start(), only act fine after reentering the world.✔
+2. Crashes in second search behaviour when tp all animals in certain location
