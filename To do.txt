@@ -1,8 +1,10 @@
 1. loop performance ✔
 2. apply to all animals✔
-4. find a proper searching range Y considering performance ✔
-5. Add waterhome, find for new waterhomes when too far✔
-3. Biome spawn - more animals near rivers
+3. find a proper searching range Y considering performance ✔
+4. Add waterhome, find for new waterhomes when too far✔
+5. Biome spawn - more animals near rivers
+6. Drinking behaviour (Blender)
+
 
 ERRORS！！！
 1. newly spawned entity stuck in start(), only act fine after reentering the world.✔

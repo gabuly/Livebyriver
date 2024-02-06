@@ -17,7 +17,7 @@ public class RandomTryFindWaterGoal extends Goal {
     private int initialTicksCounter = 0;
     private static int durationCount;
     private static final int forcestop = 160;
-    private BlockPos newWaterPos;
+    private BlockPos newWaterPos=null;
     private BlockPos goToWaterPos=null;
     private long lastTimeReachedWater=Long.MAX_VALUE;
     public RandomTryFindWaterGoal(PathfinderMob p_25964_) {
@@ -30,7 +30,7 @@ public class RandomTryFindWaterGoal extends Goal {
         initialTicksCounter++;
        }
        if (((System.currentTimeMillis()-lastTimeReachedWater)>COOLDOWN)|| initialTicksCounter== delayfinished){ // call when cooldown over || first action delay triggered
-           lastTimeReachedWater=System.currentTimeMillis();//co
+           lastTimeReachedWater=System.currentTimeMillis();
            return true;
        }
         //LOGGER.info("FALSE USE");
@@ -41,16 +41,16 @@ public class RandomTryFindWaterGoal extends Goal {
     public void start() {
         if(goToWaterPos!=null&&this.mob.blockPosition().closerThan(goToWaterPos, 32)){ //if waterlocation has recorded and not far
            // LOGGER.info("go Home==============="+newWaterPos);
-            goToWaterPos = LookForNearWater(this.mob.blockPosition(), newWaterPos);
             this.mob.getNavigation().moveTo(goToWaterPos.getX(), goToWaterPos.getY(), goToWaterPos.getZ(), 1.1);
         }
+
         else {
-            newWaterPos = this.lookForWater(this.mob.level(), this.mob, 20);//if no water location yet === seek for water position
+            newWaterPos = this.lookForWater(this.mob.level(), this.mob, 32);//if no water location yet === seek for water position
             if(newWaterPos!=null) {  //if found, record and go
                 goToWaterPos = LookForNearWater(this.mob.blockPosition(), newWaterPos);
                // LOGGER.info("new home==============  " + goToWaterPos);
                 this.mob.getNavigation().moveTo(goToWaterPos.getX(), goToWaterPos.getY(), goToWaterPos.getZ(), 1.1);
-            } else {stop();}
+            }
         }
     }
 

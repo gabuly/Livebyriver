@@ -33,7 +33,7 @@ public class livebyrivermod {
         if (entity instanceof Sheep || entity instanceof Cow || entity instanceof Pig ||
                 entity instanceof Chicken || entity instanceof Horse || entity instanceof Donkey ||
                 entity instanceof Mule || entity instanceof Llama || entity instanceof Wolf ||
-                entity instanceof Ocelot || entity instanceof Cat || entity instanceof Rabbit ||
+                entity instanceof Ocelot || entity instanceof Cat ||
                 entity instanceof Fox || entity instanceof Panda) {
             // Cast the entity to its specific type (this is safe due to the instanceof check)
             PathfinderMob animal = (PathfinderMob) entity;
