@@ -1,46 +1,81 @@
 package com.github.gabuly.livebyrivermod;
 
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.PathfinderMob;
+
+import com.github.gabuly.livebyrivermod.leaders.LeaderSheep;
+import com.github.gabuly.livebyrivermod.leaders.RegisterEntity;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.model.SheepModel;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.entity.SheepRenderer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.*;
-import net.minecraft.world.entity.animal.horse.Donkey;
-import net.minecraft.world.entity.animal.horse.Horse;
-import net.minecraft.world.entity.animal.horse.Llama;
-import net.minecraft.world.entity.animal.horse.Mule;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.MobSpawnEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod("livebyrivermod")
-@Mod.EventBusSubscriber(modid = "livebyrivermod")
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
+import static com.github.gabuly.livebyrivermod.leaders.RegisterEntity.LEADERSHEEP;
+import static com.mojang.text2speech.Narrator.LOGGER;
+
+@Mod(livebyrivermod.MOD_ID)
 public class livebyrivermod {
-
+    public static final String MOD_ID = "livebyriver";
+    private static final String LEADER_TAG = "leader_entity";
+    private static MinecraftServer server;
+    private static final Random RANDOM = new Random();
+    private static ServerLevel overworld;
     public livebyrivermod() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        RegisterEntity.register(modEventBus);
+        MinecraftForge.EVENT_BUS.register(this);
+      //  FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
     }
-
-    private void setup(final FMLCommonSetupEvent event) {
-        // Setup code here (if needed)
-    }
-
-
     @SubscribeEvent
-    public static void onEntityJoin(EntityJoinLevelEvent event) {
-        Entity entity = event.getEntity();
-        // Check if the entity is an instance of any of the specified animal classes
-        if (entity instanceof Sheep || entity instanceof Cow || entity instanceof Pig ||
-                entity instanceof Chicken || entity instanceof Horse || entity instanceof Donkey ||
-                entity instanceof Mule || entity instanceof Llama || entity instanceof Wolf ||
-                entity instanceof Ocelot || entity instanceof Cat ||
-                entity instanceof Fox || entity instanceof Panda) {
-            // Cast the entity to its specific type (this is safe due to the instanceof check)
-            PathfinderMob animal = (PathfinderMob) entity;
+    public void onServerStarting(ServerStartingEvent event) {
 
-            // Add the RandomTryFindWaterGoal to the animal's goal selector
-            animal.goalSelector.addGoal(7, new RandomTryFindWaterGoal(animal));
+    }
+
+    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    public static class ClientModEvents {
+        @SubscribeEvent
+        public static void onClientSetup(FMLClientSetupEvent event) {
+            event.enqueueWork(() -> {
+
+                EntityRenderers.register(LEADERSHEEP.get(), SheepRenderer::new);
+            });
         }
     }
+
+
+
+
+
 
 }
