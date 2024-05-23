@@ -1,6 +1,6 @@
-package com.github.gabuly.livebyrivermod.leaders;
+package com.github.gabuly.livebyrivermod;
 
-import com.github.gabuly.livebyrivermod.livebyrivermod;
+import com.github.gabuly.livebyrivermod.leaders.LeaderSheep;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.eventbus.api.IEventBus;

@@ -1,46 +1,28 @@
-package com.github.gabuly.livebyrivermod.leaders.event;
+package com.github.gabuly.livebyrivermod.event;
 
-import com.github.gabuly.livebyrivermod.RandomTryFindWaterGoal;
-import com.github.gabuly.livebyrivermod.leaders.LeaderSheep;
+import com.github.gabuly.livebyrivermod.Goals.FollowLeaderGoal;
+import com.github.gabuly.livebyrivermod.Goals.RandomTryFindWaterGoal;
 import com.github.gabuly.livebyrivermod.livebyrivermod;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.model.SheepModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.util.thread.BlockableEventLoop;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Cow;
-import net.minecraft.world.entity.animal.Sheep;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.MobSpawnEvent;
-import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import static com.github.gabuly.livebyrivermod.leaders.RegisterEntity.LEADERSHEEP;
+import static com.github.gabuly.livebyrivermod.RegisterEntity.LEADERSHEEP;
 import static com.mojang.text2speech.Narrator.LOGGER;
-import static net.minecraft.world.entity.MobSpawnType.NATURAL;
-import static net.minecraft.world.level.chunk.ChunkStatus.*;
 
 @Mod.EventBusSubscriber(modid = livebyrivermod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
@@ -52,7 +34,7 @@ public class ModEvents {
 
 
 
-    //嵌入喝水AI
+    //嵌入喝水+追随 AI
     @SubscribeEvent
     public static void onEntityJoin(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
@@ -66,8 +48,8 @@ public class ModEvents {
             // Cast the entity to its specific type (this is safe due to the instanceof check)
             PathfinderMob animal = (PathfinderMob) entity;
             // Add the RandomTryFindWaterGoal to the animal's goal selector
-            animal.goalSelector.addGoal(7, new RandomTryFindWaterGoal(animal));
-
+          //  animal.goalSelector.addGoal(7, new RandomTryFindWaterGoal(animal));
+             animal.goalSelector.addGoal(6, new FollowLeaderGoal(animal));
 
             //生成追随者
 //            if(entity instanceof LeaderSheep){
@@ -130,7 +112,7 @@ public class ModEvents {
 //            if(entityNBT.contains("isLeader") || entityNBT.getBoolean("isLeader")){
             PoseStack poseStack = event.getPoseStack();
 //       poseStack.pushPose();
-            poseStack.scale(1.5F, 1.5F, 1.5F);
+            poseStack.scale(1.7F, 1.7F, 1.7F);
 
         }
     }
@@ -182,7 +164,7 @@ public class ModEvents {
             LOGGER.info("==============spawned"+leaderPos );
 
                 //生成追随
-                for (int i = 0; i < 20; i++) {
+                for (int i = 0; i < 11; i++) {
                     ;
                     LOGGER.info(" Time to spawn follower" );//额外生成数量;
                     Entity followerEntity = entityType.create(level);

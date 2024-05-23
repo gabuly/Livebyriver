@@ -1,4 +1,4 @@
-package com.github.gabuly.livebyrivermod;
+package com.github.gabuly.livebyrivermod.Goals;
 import com.mojang.text2speech.Narrator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;

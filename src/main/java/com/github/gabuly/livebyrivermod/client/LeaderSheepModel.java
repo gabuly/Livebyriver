@@ -1,13 +1,8 @@
-package com.github.gabuly.livebyrivermod.leaders.client;
-import com.github.gabuly.livebyrivermod.leaders.LeaderSheep;
-import com.github.gabuly.livebyrivermod.livebyrivermod;
+package com.github.gabuly.livebyrivermod.client;
 import net.minecraft.client.model.QuadrupedModel;
-import net.minecraft.client.model.SheepModel;
-import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

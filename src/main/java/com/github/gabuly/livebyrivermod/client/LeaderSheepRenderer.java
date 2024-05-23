@@ -1,4 +1,4 @@
-package com.github.gabuly.livebyrivermod.leaders.client;
+package com.github.gabuly.livebyrivermod.client;
 
 
 import net.minecraft.client.model.SheepModel;

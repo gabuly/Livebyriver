@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 import javax.annotation.Nullable;
 
 public class LeaderSheep extends Sheep {
-
+    private final LeaderTracker tracker = new LeaderTracker();
     public LeaderSheep(EntityType<? extends Sheep> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
     }
@@ -23,6 +23,18 @@ public class LeaderSheep extends Sheep {
                 .add(Attributes.FOLLOW_RANGE, 24D)
                 .add(Attributes.ARMOR_TOUGHNESS, 0.1f)
                 .add(Attributes.ATTACK_DAMAGE, 2f);
+    }
+    @Override
+    public void tick() {
+        super.tick();
+        if (!this.level().isClientSide && this.isAlive()) {
+            BlockPos currentPos = this.blockPosition();
+            tracker.updatePath(currentPos);
+        }
+    }
+
+    public LeaderTracker getTracker() {
+        return tracker;
     }
 
 //    public LeaderSheep(Level level, double x, double y, double z){
