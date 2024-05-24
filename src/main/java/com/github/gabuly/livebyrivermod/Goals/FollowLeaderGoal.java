@@ -25,45 +25,60 @@ public class FollowLeaderGoal extends Goal {
     public boolean canUse() {
         if (this.leaderSheep ==null) {//没有已记住的leader的话 尝试寻找一个， 如果找到， true
             this.leaderSheep = findLeaderSheep();
-            return this.leaderSheep != null;
+            if(this.leaderSheep!=null){
+                return this.leaderSheep.isInPanic()||--this.timer <= 0;
+            }
+            return false;
         }
         //已经有leader了的话true
-        return true;
+        return this.leaderSheep.isInPanic()||--this.timer <= 0;
     }
 
     @Override
     public boolean canContinueToUse() {
-        return this.mob.isAlive() && this.leaderSheep != null && this.leaderSheep.isAlive();
+        return this.mob.getNavigation().isDone();
     }
+    @Override
+    public void stop() {
+        this.timer = this.random.nextInt(50) + 50;
+    }
+
 
     @Override
     public void start() {
-        this.timer = this.random.nextInt(50) + 50;
+
     }
 
     @Override
     public void tick() {
-        if (--this.timer <= 0) {
-                this.timer = this.random.nextInt(50) + 50; // Reset the timer with a new random delay
-                if (this.leaderSheep != null) {
-                    LinkedList<BlockPos> pathHistory = this.leaderSheep.getTracker().getPathHistory();
-
-                    if (pathHistory.size() > 3) { // Ensure there are at least 5 positions
-                        List<BlockPos> selectablePositions = pathHistory.subList(0, pathHistory.size() - 1);
-                        LOGGER.info("Selectable positions size: " + selectablePositions.size());
-
-                        BlockPos targetPos = selectablePositions.get(random.nextInt(selectablePositions.size()));
-                        LOGGER.info("Selected target position: " + targetPos);
-
-                        int X = random.nextInt(5) - 2;
-                        int Z = random.nextInt(5) - 2;
-
-                        this.mob.getNavigation().moveTo(targetPos.getX()+X, targetPos.getY(), targetPos.getZ()+Z, 1.2);
-                        LOGGER.info("MOVVVVVVVVVVVVVVVVVVVVV to: " + targetPos);
-                    }
-                }
-            }
+        if (this.leaderSheep != null)
+        {
+            //panic状态下直接跑向leader
+        if(this.leaderSheep.isInPanic()) {
+            // Move directly to the LeaderSheep's position at high speed
+            BlockPos leaderPos = this.leaderSheep.blockPosition();
+            this.mob.getNavigation().moveTo(leaderPos.getX(), leaderPos.getY(), leaderPos.getZ(), 1.7);
+            LOGGER.info("RUN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " + leaderPos);
         }
+
+        else{
+        //日常情况慢慢跟随leader
+              // Reset the timer with a new random delay
+                    LinkedList<BlockPos> pathHistory = this.leaderSheep.getTracker().getPathHistory();
+                    if (pathHistory.size() > 1) { // Ensure there are at least 3 positions
+                        List<BlockPos> selectablePositions = pathHistory.subList(0, pathHistory.size() - 1);
+                      //  LOGGER.info("Selectable positions size: " + selectablePositions.size());
+                        BlockPos targetPos = selectablePositions.get(this.random.nextInt(selectablePositions.size()));
+                        LOGGER.info("Selected target position: " + targetPos);
+                        int X = random.nextInt(5) - 3;
+                        int Z = random.nextInt(5) - 3;
+                        this.mob.getNavigation().moveTo(targetPos.getX()+X, targetPos.getY(), targetPos.getZ()+Z, 1.2);
+                        LOGGER.info("==============: " + this.timer);
+
+                    }
+             }
+        }
+    }
 
 
     private LeaderSheep findLeaderSheep() {

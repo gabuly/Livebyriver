@@ -15,7 +15,7 @@ public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
 //模型大小
     public static final RegistryObject<EntityType<LeaderSheep>> LEADERSHEEP =
             ENTITY_TYPES.register("leadersheep", () -> EntityType.Builder.of(LeaderSheep::new, MobCategory.CREATURE)
-                    .sized(2.5f, 2.5f).build("leadersheep"));
+                    .sized(1.8f, 1.8f).build("leadersheep"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

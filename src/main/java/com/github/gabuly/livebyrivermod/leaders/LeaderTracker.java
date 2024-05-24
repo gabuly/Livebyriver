@@ -10,7 +10,7 @@ import static com.mojang.text2speech.Narrator.LOGGER;
 
 public class LeaderTracker {
     private final LinkedList<BlockPos> pathHistory = new LinkedList<>();
-    private static final int MAX_HISTORY_SIZE = 5;
+    private static final int MAX_HISTORY_SIZE = 4;
     private final Random random = new Random();
     public void updatePath(BlockPos newPos) {
 

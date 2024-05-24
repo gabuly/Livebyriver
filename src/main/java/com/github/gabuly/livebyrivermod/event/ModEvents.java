@@ -1,7 +1,7 @@
 package com.github.gabuly.livebyrivermod.event;
 
 import com.github.gabuly.livebyrivermod.Goals.FollowLeaderGoal;
-import com.github.gabuly.livebyrivermod.Goals.RandomTryFindWaterGoal;
+import com.github.gabuly.livebyrivermod.leaders.LeaderSheep;
 import com.github.gabuly.livebyrivermod.livebyrivermod;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.core.BlockPos;
@@ -9,6 +9,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
@@ -40,16 +41,15 @@ public class ModEvents {
         Entity entity = event.getEntity();
         // Check if the entity is an instance of any of the specified animal classes
         if (entity instanceof Animal){
+            if(entity instanceof Sheep && !(entity instanceof LeaderSheep)){
 //        if (entity instanceof Sheep || entity instanceof Cow || entity instanceof Pig ||
 //                entity instanceof Chicken || entity instanceof Horse || entity instanceof Donkey ||
 //                entity instanceof Mule || entity instanceof Llama || entity instanceof Wolf ||
 //                entity instanceof Ocelot || entity instanceof Cat ||
 //                entity instanceof Fox || entity instanceof Panda) {
-            // Cast the entity to its specific type (this is safe due to the instanceof check)
             PathfinderMob animal = (PathfinderMob) entity;
-            // Add the RandomTryFindWaterGoal to the animal's goal selector
-          //  animal.goalSelector.addGoal(7, new RandomTryFindWaterGoal(animal));
-             animal.goalSelector.addGoal(6, new FollowLeaderGoal(animal));
+             animal.goalSelector.addGoal(4, new FollowLeaderGoal(animal));
+            }
 
             //生成追随者
 //            if(entity instanceof LeaderSheep){
@@ -112,7 +112,7 @@ public class ModEvents {
 //            if(entityNBT.contains("isLeader") || entityNBT.getBoolean("isLeader")){
             PoseStack poseStack = event.getPoseStack();
 //       poseStack.pushPose();
-            poseStack.scale(1.7F, 1.7F, 1.7F);
+            poseStack.scale(1.3F, 1.3F, 1.3F);
 
         }
     }
@@ -161,26 +161,29 @@ public class ModEvents {
             Entity leader = LEADERSHEEP.get().create(level);
             leader.moveTo(leaderPos.getX(), leaderPos.getY(), leaderPos.getZ(), 0.0F, 0.0F);
             level.addFreshEntity(leader);
-            LOGGER.info("==============spawned"+leaderPos );
+            //LOGGER.info("==============spawned"+leaderPos );
 
-                //生成追随
-                for (int i = 0; i < 11; i++) {
-                    ;
-                    LOGGER.info(" Time to spawn follower" );//额外生成数量;
-                    Entity followerEntity = entityType.create(level);
-                    // 随机生成范围,准备检测
-                    int randomX = RANDOM.nextInt(14) - 7; // Random value between -15 and 15 for X
-                    int randomZ = RANDOM.nextInt(14) - 7;
-                    int X =leaderPos.getX();
-                    int Y =leaderPos.getY();
-                    int Z =leaderPos.getZ();
-                    BlockPos spawnPos = new BlockPos( X+ randomX, Y, Z + randomZ);
-                    BlockPos groundPos = spawnPos.below();
-
-                    LOGGER.info("spawn =" +spawnPos);
-                    LOGGER.info("ground =" +groundPos);
-                    followerEntity.setPos(leaderPos.getX(),leaderPos.getY(),leaderPos.getZ());
-                    level.addFreshEntity(followerEntity);
+//                //生成追随
+//                for (int i = 0; i < 11; i++) {
+//                    ;
+//                   // LOGGER.info(" Time to spawn follower" );//额外生成数量;
+//                    Entity followerEntity = entityType.create(level);
+//                    // 随机生成范围,准备检测
+//                    int randomX = RANDOM.nextInt(5) - 2; // Random value between -15 and 15 for X
+//                    int randomZ = RANDOM.nextInt(5) - 2;
+//
+//                    int X =leaderPos.getX();
+//                    int Y =leaderPos.getY();
+//                    int Z =leaderPos.getZ();
+//                    BlockPos randomPos = new BlockPos( X+ randomX, Y, Z + randomZ);
+//                   // BlockPos groundPos = spawnPos.below();
+//                    followerEntity.setPos(leaderPos.getX(),leaderPos.getY()+44,leaderPos.getZ());
+//                    level.addFreshEntity(followerEntity);
+//                }
+                    //开局跑几步,让堆叠的散开
+                   // Mob mob = (Mob) followerEntity;
+                   // mob.getNavigation().moveTo(randomPos.getX(),randomPos.getY(),randomPos.getZ(),1.5);
+//
 //                    if(followerEntity.isInWall()){
 //                        LOGGER.info("wallllllllllllllllllllll=" +spawnPos);
 //                    }
@@ -205,7 +208,7 @@ public class ModEvents {
 //                    }
 //                    followerEntity.setPos(spawnPos.getX(),spawnPos.getY(),spawnPos.getZ());
 //                    level.addFreshEntity(followerEntity);
-        }
+
 
     }
     }}
