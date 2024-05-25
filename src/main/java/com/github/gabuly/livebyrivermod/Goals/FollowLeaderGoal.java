@@ -36,16 +36,29 @@ public class FollowLeaderGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        return this.mob.getNavigation().isDone();
+        return !this.mob.getNavigation().isDone();
     }
     @Override
     public void stop() {
         this.timer = this.random.nextInt(50) + 50;
+        LOGGER.info("STOPPPPP==============: " + this.timer);
     }
 
 
     @Override
     public void start() {
+        LinkedList<BlockPos> pathHistory = this.leaderSheep.getTracker().getPathHistory();
+        if (pathHistory.size() > 1) { // Ensure there are at least 3 positions
+            List<BlockPos> selectablePositions = pathHistory.subList(0, pathHistory.size() - 1);
+            //  LOGGER.info("Selectable positions size: " + selectablePositions.size());
+            BlockPos targetPos = selectablePositions.get(this.random.nextInt(selectablePositions.size()));
+           // LOGGER.info("Selected target position: " + targetPos);
+            int X = random.nextInt(5) - 3;
+            int Z = random.nextInt(5) - 3;
+            this.mob.getNavigation().moveTo(targetPos.getX()+X, targetPos.getY(), targetPos.getZ()+Z, 1.2);
+            LOGGER.info("==============: " + this.timer);
+
+        }
 
     }
 
@@ -57,26 +70,28 @@ public class FollowLeaderGoal extends Goal {
         if(this.leaderSheep.isInPanic()) {
             // Move directly to the LeaderSheep's position at high speed
             BlockPos leaderPos = this.leaderSheep.blockPosition();
-            this.mob.getNavigation().moveTo(leaderPos.getX(), leaderPos.getY(), leaderPos.getZ(), 1.7);
+            int X = random.nextInt(4) - 2;
+            int Z = random.nextInt(4) - 2;
+            this.mob.getNavigation().moveTo(leaderPos.getX()+X, leaderPos.getY(), leaderPos.getZ()+Z, 1.7);
             LOGGER.info("RUN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " + leaderPos);
         }
 
-        else{
+//        else{
         //日常情况慢慢跟随leader
               // Reset the timer with a new random delay
-                    LinkedList<BlockPos> pathHistory = this.leaderSheep.getTracker().getPathHistory();
-                    if (pathHistory.size() > 1) { // Ensure there are at least 3 positions
-                        List<BlockPos> selectablePositions = pathHistory.subList(0, pathHistory.size() - 1);
-                      //  LOGGER.info("Selectable positions size: " + selectablePositions.size());
-                        BlockPos targetPos = selectablePositions.get(this.random.nextInt(selectablePositions.size()));
-                        LOGGER.info("Selected target position: " + targetPos);
-                        int X = random.nextInt(5) - 3;
-                        int Z = random.nextInt(5) - 3;
-                        this.mob.getNavigation().moveTo(targetPos.getX()+X, targetPos.getY(), targetPos.getZ()+Z, 1.2);
-                        LOGGER.info("==============: " + this.timer);
-
-                    }
-             }
+//                    LinkedList<BlockPos> pathHistory = this.leaderSheep.getTracker().getPathHistory();
+//                    if (pathHistory.size() > 1) { // Ensure there are at least 3 positions
+//                        List<BlockPos> selectablePositions = pathHistory.subList(0, pathHistory.size() - 1);
+//                      //  LOGGER.info("Selectable positions size: " + selectablePositions.size());
+//                        BlockPos targetPos = selectablePositions.get(this.random.nextInt(selectablePositions.size()));
+//                        LOGGER.info("Selected target position: " + targetPos);
+//                        int X = random.nextInt(5) - 3;
+//                        int Z = random.nextInt(5) - 3;
+//                        this.mob.getNavigation().moveTo(targetPos.getX()+X, targetPos.getY(), targetPos.getZ()+Z, 1.2);
+//                        LOGGER.info("==============: " + this.timer);
+//
+//                    }
+           //  }
         }
     }
 

@@ -23,21 +23,25 @@ public class SpawnFollowerOnceGoal extends Goal {
 
     public SpawnFollowerOnceGoal(PathfinderMob mob) {
         this.mob = mob;
-        this.setFlags(EnumSet.of(Goal.Flag.MOVE));
-        this.executed = false;
+        this.executed = mob.getPersistentData().getBoolean("FollowersSpawned");
     }
 
     @Override
     public boolean canUse() {
         // Only use this goal if it hasn't been executed yet
+        //LOGGER.info("CANUSEEEEEEEEEEEEEEEEEEEE =========" + this.executed  + mob.getPersistentData().getBoolean("FollowersSpawned"));
         return !executed;
+
     }
 
     @Override
     public void start() {
+       // LOGGER.info("Spawn or not: =========" + this.executed  + mob.getPersistentData().getBoolean("FollowersSpawned"));
         Level level = mob.level();
         if (!level.isClientSide) {
+
             for (int i = 0; i < 11; i++) {
+               // LOGGER.info("Spawnnnnnnnnnnnnnnnnnn!!!!!!!      " + i +"    " +!this.executed  + mob.getPersistentData().getBoolean("FollowersSpawned"));
             Vec3 randomPos = DefaultRandomPos.getPos(mob,5,5)  ;
             Sheep sheep = EntityType.SHEEP.create(level);
 
@@ -45,10 +49,14 @@ public class SpawnFollowerOnceGoal extends Goal {
                 sheep.setPos(randomPos.x, randomPos.y, randomPos.z);
                 level.addFreshEntity(sheep);
               }
+
             }
-            LOGGER.info(""+this.executed);
-            this.executed = true;
+         //   LOGGER.info(""+this.executed);
         }
+        mob.getPersistentData().putBoolean("FollowersSpawned", true);
+        this.executed = mob.getPersistentData().getBoolean("FollowersSpawned");
+        //LOGGER.info("After: =========" + this.executed   + mob.getPersistentData().getBoolean("FollowersSpawned"));
+       stop();
         // Mark this goal as executed
 
     }
@@ -58,4 +66,5 @@ public class SpawnFollowerOnceGoal extends Goal {
         // This goal does not continue once it has started
         return false;
     }
+
 }

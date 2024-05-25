@@ -1,10 +1,12 @@
 package com.github.gabuly.livebyrivermod.event;
 
 import com.github.gabuly.livebyrivermod.Goals.FollowLeaderGoal;
+import com.github.gabuly.livebyrivermod.Goals.SpawnFollowerOnceGoal;
 import com.github.gabuly.livebyrivermod.leaders.LeaderSheep;
 import com.github.gabuly.livebyrivermod.livebyrivermod;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.*;
@@ -157,10 +159,17 @@ public class ModEvents {
             //生成leader  取消常规生成
             BlockPos leaderPos = entity.blockPosition();
             event.setSpawnCancelled(true);
+            PathfinderMob leader = LEADERSHEEP.get().create(level);
+            //生成追随者nbt
+            assert leader != null;
+            CompoundTag nbtData = leader.getPersistentData();
+            nbtData.putBoolean("FollowersSpawned", false);
 
-            Entity leader = LEADERSHEEP.get().create(level);
+            //召唤追随者goal手动插入，避免重进世界重复召唤
             leader.moveTo(leaderPos.getX(), leaderPos.getY(), leaderPos.getZ(), 0.0F, 0.0F);
+            leader.goalSelector.addGoal(1, new SpawnFollowerOnceGoal(leader));
             level.addFreshEntity(leader);
+
             //LOGGER.info("==============spawned"+leaderPos );
 
 //                //生成追随

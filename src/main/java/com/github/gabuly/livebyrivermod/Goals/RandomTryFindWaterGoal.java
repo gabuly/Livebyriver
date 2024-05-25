@@ -8,6 +8,7 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.BlockGetter;
 import javax.annotation.Nullable;
+import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import static com.mojang.text2speech.Narrator.LOGGER;
 
 public class RandomTryFindWaterGoal extends Goal {

@@ -1,6 +1,7 @@
 package com.github.gabuly.livebyrivermod.leaders;
 
 
+import com.github.gabuly.livebyrivermod.Goals.LeaderSheepAlertGoal;
 import com.github.gabuly.livebyrivermod.Goals.LeaderSheepPanicGoal;
 
 import com.github.gabuly.livebyrivermod.Goals.SpawnFollowerOnceGoal;
@@ -27,7 +28,8 @@ public class LeaderSheep extends Sheep {
        // this.goalSelector.getAvailableGoals().clear();
 //        this.goalSelector.addGoal(2, new FloatGoal(this));
         this.goalSelector.addGoal(2, new LeaderSheepPanicGoal(this));
-        this.goalSelector.addGoal(1, new SpawnFollowerOnceGoal(this));
+      //  this.goalSelector.addGoal(1, new SpawnFollowerOnceGoal(this));
+        this.goalSelector.addGoal(3, new LeaderSheepAlertGoal(this,25,20));
     }
 
 
